@@ -1,0 +1,51 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:BookManagement.DesktopClient.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="BookManagement.DesktopClient.Views.BookDetailsWindow"
+        x:DataType="vm:BookDetailsWindowViewModel"
+        Height="500" Width="400"
+        CanResize="False"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaToDecorationsHint="True"
+        WindowStartupLocation="CenterOwner"
+        Title="Add Book">
+
+    <Design.DataContext>
+        <vm:BookDetailsWindowViewModel />
+    </Design.DataContext>
+
+
+    <Grid RowDefinitions="Auto, *">
+        <StackPanel Margin="20, 20, 0, 0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Margin="0,0,0,7" Text="Author:" />
+                <TextBox Margin="0,0,0,15" Width="300" MaxLength="128" Text="{Binding Book.Author}" />
+
+                <TextBlock Margin="0,0,0,7" Text="Title:" />
+                <TextBox Margin="0,0,0,15" Width="300" MaxLength="256" Text="{Binding Book.Title}" />
+
+                <TextBlock Margin="0,0,0,7" Text="Genre:" />
+                <TextBox Margin="0,0,0,15" Width="300" MaxLength="128" Text="{Binding Book.Genre}" />
+
+                <TextBlock Margin="0,0,0,7" Text="Publisher:" />
+                <TextBox Margin="0,0,0,15" Width="300" MaxLength="256" Text="{Binding Book.Publisher}" />
+
+                <TextBlock Margin="0,0,0,7" Text="Language:" />
+                <TextBox Margin="0,0,0,15" Width="300" MaxLength="256" Text="{Binding Book.Language}" />
+
+                <TextBlock Margin="0,0,0,7" Text="Publication Date:" />
+                <DatePicker DayFormat="dd" MonthFormat="MM" SelectedDate="{Binding SelectedDate}" />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Margin="0, 0, 0, 10" Orientation="Horizontal" HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom">
+            <Button Margin="5" Content="{Binding ConfirmButtonContent}"
+                    IsEnabled="{Binding Book.ValidationContext.IsValid}" Command="{Binding ReturnBookCommand}" />
+            <Button Margin="5" Content="Cancel" IsCancel="True" Click="CancelButton_OnClick" />
+        </StackPanel>
+    </Grid>
+</Window>

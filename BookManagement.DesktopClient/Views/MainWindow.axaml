@@ -1,0 +1,87 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:BookManagement.DesktopClient.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="using:Avalonia.Xaml.Interactivity"
+        xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+        xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="BookManagement.DesktopClient.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="BookManagement">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Grid RowDefinitions="Auto, *, Auto">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="20, 15, 5, 0" Text="Author:" />
+            <ComboBox Name="AuthorComboBox" Margin="2, 9, 10, 5" MaxDropDownHeight="200" PlaceholderText="All Authors"
+                      ItemsSource="{Binding Authors}" SelectedItem="{Binding SelectedAuthor}">
+                <i:Interaction.Behaviors>
+                    <ia:EventTriggerBehavior EventName="SelectionChanged" SourceObject="AuthorComboBox">
+                        <ia:InvokeCommandAction Command="{Binding AuthorSelectionChangedCommand}" />
+                    </ia:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </ComboBox>
+
+            <TextBlock Margin="10, 15, 5, 0" Text="Genre:" />
+            <ComboBox Name="GenreComboBox" Margin="2, 9, 10, 5" MaxDropDownHeight="200" PlaceholderText="All Genres"
+                      ItemsSource="{Binding Genres}" SelectedItem="{Binding SelectedGenre}">
+                <i:Interaction.Behaviors>
+                    <ia:EventTriggerBehavior EventName="SelectionChanged" SourceObject="GenreComboBox">
+                        <ia:InvokeCommandAction Command="{Binding GenreSelectionChangedCommand}" />
+                    </ia:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </ComboBox>
+
+
+            <Button Margin="5, 10, 5, 10" Content="Add" Command="{Binding  AddBook}" />
+            <Button Margin="5, 10, 5, 10" Content="Edit" IsVisible="{Binding IsBookSelected}"
+                    Command="{Binding  EditBook}" />
+            <Button Margin="5, 10, 5, 10" Content="Delete" IsVisible="{Binding IsBookSelected}"
+                    Command="{Binding  DeleteBook}" />
+        </StackPanel>
+
+        <DataGrid Grid.Row="1" Margin="0,10,0,10" AutoGenerateColumns="False" IsReadOnly="True"
+                  ItemsSource="{Binding Books}" SelectedItem="{Binding SelectedBook}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Author" Binding="{Binding Author}" />
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" />
+                <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" />
+                <DataGridTextColumn Header="Publisher" Binding="{Binding Publisher}" />
+                <DataGridTextColumn Header="Language" Binding="{Binding Language}" />
+                <DataGridTextColumn Header="PublicationDate" Binding="{Binding PublicationDate}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Margin="0,10" Orientation="Horizontal" HorizontalAlignment="Center">
+
+            <Button Content="{materialIcons:MaterialIconExt Kind=SkipBackward}" Margin="10, 0"
+                    Command="{Binding  FirstPage}" />
+
+            <RepeatButton Content="{materialIcons:MaterialIconExt Kind=SkipPrevious}" Margin="10, 0"
+                          IsEnabled="{Binding PageProperties.HasPreviousPage}" Command="{Binding  PreviousPage}" />
+
+            <TextBlock Margin="10,0" VerticalAlignment="Center">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="Page {0} of {1}">
+                        <Binding Path="PageProperties.CurrentPage" />
+                        <Binding Path="PageProperties.TotalPages" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+
+            <RepeatButton Content="{materialIcons:MaterialIconExt Kind=SkipNext}" Margin="10, 0"
+                          IsEnabled="{Binding PageProperties.HasNextPage}" Command="{Binding  NextPage}" />
+
+            <Button Content="{materialIcons:MaterialIconExt Kind=SkipForward}" Margin="10, 0"
+                    Command="{Binding  LastPage}" />
+
+        </StackPanel>
+    </Grid>
+</Window>

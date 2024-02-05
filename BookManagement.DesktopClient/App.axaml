@@ -1,0 +1,21 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             x:Class="BookManagement.DesktopClient.App"
+             xmlns:local="using:BookManagement.DesktopClient"
+             RequestedThemeVariant="Default">
+
+    <Application.DataTemplates>
+        <local:ViewLocator />
+    </Application.DataTemplates>
+
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+        <materialIcons:MaterialIconStyles />
+        <Style Selector="DataValidationErrors">
+            <!-- ReSharper disable once Xaml.StaticResourceNotResolved -->
+            <Setter Property="Theme" Value="{StaticResource TooltipDataValidationErrors}" />
+        </Style>
+    </Application.Styles>
+</Application>
